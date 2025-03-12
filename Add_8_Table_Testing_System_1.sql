@@ -5,7 +5,7 @@ create table `group`(
     creatorId int ,
     createDate Date ,
     foreign key(creatorId) references account(accountId)
-);
+);group
 create table group_account(
 	groupId int ,
     accountId int ,
