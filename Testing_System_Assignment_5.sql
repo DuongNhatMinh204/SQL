@@ -19,7 +19,22 @@ create view AccountMultipleGroup  as
 								group by a.accountId 
 								)
     order by count(ga.groupId) desc ;
-    
+-- question 2 : su dung cte 
+with MaxCount as (
+	select count(ga.groupId) as TotalGroup
+    from account a 
+    left join group_account ga on a.accountId = ga.accountId 
+	group by a.accountId
+    order by count(ga.groupId) desc
+    limit 1 
+) 
+select a.accountId , a.email , a.userName , a.fullName , count(ga.groupId) as TotalGroup
+from account a
+left join group_account ga on a.accountId = ga.accountId 
+group by a.accountId 
+having count(ga.groupId) = (
+							select TotalGroup from MaxCount 
+							) ;
 -- question 3 : tao view co chua cau hoi co nhung content qua dai ( qua 14 tu ) va xoa no di 
 drop view QuestionLongContent ;
 create view  QuestionLongContent as
